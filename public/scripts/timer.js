@@ -13,9 +13,9 @@ var Timer = function (args) {
         this.is_working = t.is_working;
         
         if (this.is_working) {
-            this.onStartWork(this);
+            this.onStartWork(this, false);
         } else {
-            this.onStartBreak(this);
+            this.onStartBreak(this, false);
         }
     }
     

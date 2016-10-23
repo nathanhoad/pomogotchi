@@ -31,21 +31,26 @@ $(document).ready(function () {
     });
 
     var timer = new Timer({
-        onStartWork: function (timer) {
+        onStartWork: function (timer, will_notify) {
             $('#start-work').addClass('active');
             $('#start-break').removeClass('active');
 
-            $('#message').text('Get back to work!');
+            $('#message').text('Come back later!');
 
             $('#dog-buttons').addClass('disabled');
             dog.sleep();
         },
-        onStartBreak: function (timer) {
+        onStartBreak: function (timer, will_notify) {
             $('#start-break').addClass('active');
             $('#start-work').removeClass('active');
 
             $('#dog-buttons').removeClass('disabled');
             dog.sit();
+            
+            if (will_notify !== false) {
+                Dog.SOUND_SIT.play();
+                notify();
+            }
         },
         render: function (timer) {
             var minutes = Math.floor(timer.seconds / 60);

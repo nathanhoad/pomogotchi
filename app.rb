@@ -24,5 +24,5 @@ end
 
 before do
   @style = scss :application, style: :compressed
-  @scripts = Uglifier.compile([:fonts, :howler, :dog, :timer, :application].map{ |file| File.open(File.dirname(__FILE__) + '/public/scripts/' + file.to_s + '.js').read }.join("\n"))
+  @scripts = Uglifier.compile([:fonts, :howler, :notifications, :dog, :timer, :application].map{ |file| File.open(File.dirname(__FILE__) + '/public/scripts/' + file.to_s + '.js').read }.join("\n"))
 end
