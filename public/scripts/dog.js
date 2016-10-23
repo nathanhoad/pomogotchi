@@ -64,7 +64,7 @@ Dog.prototype.play = function () {
     
     setTimeout(function () {
         this.sit();
-    }.bind(this), 2000);
+    }.bind(this), 1500 + (Math.random() * 2000));
 }
 
 
@@ -76,7 +76,7 @@ Dog.prototype.feed = function () {
     
     setTimeout(function () {
         this.sit();
-    }.bind(this), 2000);
+    }.bind(this), 1500 + (Math.random() * 2000));
 };
 
 
