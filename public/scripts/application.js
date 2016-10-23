@@ -11,10 +11,10 @@ $(document).ready(function () {
                     $dog.attr('src', '/images/eating.gif');
                     break;
                 case Dog.PLAYING:
-                    $dog.attr('src', '/images/playing.gif');
+                    $dog.attr('src', '/images/play.gif');
                     break;
                 case Dog.POOPED:
-                    $dog.attr('src', '/images/pooped.gif');
+                    $dog.attr('src', '/images/poop.gif');
                     break;
                 default:
                     $dog.attr('src', '/images/sitting.gif');
