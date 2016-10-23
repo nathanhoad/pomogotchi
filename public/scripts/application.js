@@ -2,7 +2,7 @@ $(document).ready(function () {
     var dog = new Dog({
         render: function (dog) {
             var $dog = $('#dog');
-            
+
             switch (dog.state) {
                 case Dog.SLEEPING:
                     $dog.html('[sleeping]');
@@ -17,7 +17,7 @@ $(document).ready(function () {
                     $dog.html('[pooped]');
                     break;
                 default:
-                    $dog.html('[sitting]');
+                    $dog.attr('src', '/images/sitting.gif');
             }
         },
         onSit: function (dog, just_pooped) {
@@ -29,21 +29,21 @@ $(document).ready(function () {
             }
         }
     });
-    
+
     var timer = new Timer({
         onStartWork: function (timer) {
             $('#start-work').addClass('active');
             $('#start-break').removeClass('active');
-            
+
             $('#message').text('Get back to work!');
-            
+
             $('#dog-buttons').addClass('disabled');
             dog.sleep();
         },
         onStartBreak: function (timer) {
             $('#start-break').addClass('active');
             $('#start-work').removeClass('active');
-            
+
             $('#dog-buttons').removeClass('disabled');
             dog.sit();
         },
@@ -53,25 +53,25 @@ $(document).ready(function () {
             $('#timer').html(minutes + ":" + (seconds < 10 ? '0' + seconds : seconds));
         }
     });
-    
-    
+
+
     $('#start-work').click(function () {
         timer.startWork();
     });
-    
+
     $('#start-break').click(function () {
         timer.startBreak();
     });
-    
+
     // Dog buttons
     $('#dog-play').click(function () {
         dog.play();
     });
-    
+
     $('#dog-feed').click(function () {
         dog.feed();
     });
-    
+
     $('#dog-clean').click(function () {
         dog.clean();
     });
