@@ -43,14 +43,18 @@ $(document).ready(function () {
             $('#dog-buttons').addClass('disabled');
             dog.sleep();
         },
-        onStartBreak: function (timer, will_notify) {
+        onStartBreak: function (timer, will_notify, message) {
             $('#start-break').addClass('active');
             $('#start-work').removeClass('active');
             
             $('#dog-buttons').removeClass('disabled');
             dog.sit();
             
-            if (!dog.hasPooped()) $('#message').text('Time for a break!');
+            if (typeof message !== "undefined") {
+                $('#message').text(message);
+            } else if (!dog.hasPooped()) {
+                $('#message').text('Time for a break!');
+            }
             
             if (will_notify !== false) {
                 Dog.SOUND_SIT.play();
@@ -60,7 +64,15 @@ $(document).ready(function () {
         render: function (timer) {
             var minutes = Math.floor(timer.seconds / 60);
             var seconds = timer.seconds - (minutes * 60);
-            $('#timer').html(minutes + ":" + (seconds < 10 ? '0' + seconds : seconds));
+            
+            var $timer = $('#timer');
+            $timer.html(minutes + ":" + (seconds < 10 ? '0' + seconds : seconds));
+            
+            if (!timer.is_working && seconds > 5 * 60) {
+                $timer.css('color', '#c00');
+            } else {
+                $timer.css('color', '#333');
+            }
         }
     });
 
@@ -84,5 +96,12 @@ $(document).ready(function () {
 
     $('#dog-clean').click(function () {
         dog.clean();
+    });
+    
+    
+    $('#reset').click(function () {
+        if (confirm('Empty local storage?')) {
+            timer.emptyStorage();
+        }
     });
 });

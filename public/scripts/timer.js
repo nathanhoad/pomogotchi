@@ -6,6 +6,8 @@ var Timer = function (args) {
     this.seconds = 0;
     this.is_working = false;
     
+    this.store = true;
+    
     // Try to load the saved timer
     if (localStorage && localStorage.getItem('timer')) {
         var t = JSON.parse(localStorage.getItem('timer'));
@@ -17,6 +19,8 @@ var Timer = function (args) {
         } else {
             this.onStartBreak(this, false);
         }
+    } else {
+        this.onStartBreak(this, false, 'You should start some work');
     }
     
     this.interval = setInterval(function () {
@@ -32,7 +36,7 @@ var Timer = function (args) {
             this.seconds++;
         }
         
-        if (localStorage) {
+        if (localStorage && this.store) {
             var t = { seconds: this.seconds, is_working: this.is_working };
             localStorage.setItem('timer', JSON.stringify(t));
         }
@@ -58,6 +62,14 @@ Timer.prototype.startBreak = function () {
     this.render(this);
     this.onStartBreak(this);
 };
+
+
+Timer.prototype.emptyStorage = function () {
+    this.store = false;
+    if (localStorage) {
+        localStorage.removeItem('timer');
+    }
+}
 
 
 Timer.prototype.onStartWork = function () {};
