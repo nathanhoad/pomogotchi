@@ -5,16 +5,16 @@ $(document).ready(function () {
 
             switch (dog.state) {
                 case Dog.SLEEPING:
-                    $dog.html('[sleeping]');
+                    $dog.attr('src', '/images/sleeping.gif');
                     break;
                 case Dog.EATING:
-                    $dog.html('[eating]');
+                    $dog.attr('src', '/images/eating.gif');
                     break;
                 case Dog.PLAYING:
-                    $dog.html('[playing]');
+                    $dog.attr('src', '/images/playing.gif');
                     break;
                 case Dog.POOPED:
-                    $dog.html('[pooped]');
+                    $dog.attr('src', '/images/pooped.gif');
                     break;
                 default:
                     $dog.attr('src', '/images/sitting.gif');
