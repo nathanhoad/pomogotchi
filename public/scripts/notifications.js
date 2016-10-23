@@ -6,6 +6,7 @@ if (Notification && Notification.permission !== "granted") {
 function notify () {
     if (!Notification) return;
     if (Notification.permission !== "granted") return;
+    if (document.hasFocus()) return;
     
     var notification = new Notification('Pomogotchi', {
         icon: 'https://i.imgur.com/D71TTTi.png',

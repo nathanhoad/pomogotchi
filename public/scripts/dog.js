@@ -42,6 +42,10 @@ Dog.prototype.pooped = function () {
     Dog.SOUND_POOP.play();
 };
 
+Dog.prototype.hasPooped = function () {
+    return (this.state == Dog.POOPED);
+}
+
 
 Dog.prototype.clean = function () {
     if (this.state == Dog.POOPED) {

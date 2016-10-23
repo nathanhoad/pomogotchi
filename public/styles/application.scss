@@ -127,10 +127,21 @@ section {
 
 footer {
   text-align: center;
+  color: #999;
   
   a {
-    color: black;
+    color: #999;
     text-decoration: underline;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: #666;
+    }
+  }
+  
+  em {
+    font-style: normal;
+    color: #933;
   }
 }
 
