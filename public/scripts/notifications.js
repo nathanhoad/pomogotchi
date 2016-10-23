@@ -1,10 +1,10 @@
-if (Notification && Notification.permission !== "granted") {
+if (typeof Notification !== "undefined" && Notification.permission !== "granted") {
     Notification.requestPermission();
 }
 
 
 function notify () {
-    if (!Notification) return;
+    if (typeof Notification == "undefined") return;
     if (Notification.permission !== "granted") return;
     if (document.hasFocus()) return;
     
