@@ -59,6 +59,10 @@ Dog.prototype.sleep = function () {
     this.setState(Dog.SLEEPING);
 };
 
+Dog.prototype.isSleeping = function () {
+    return (this.state == Dog.SLEEPING);
+};
+
 
 Dog.prototype.play = function () {
     if (!this.isSitting()) return;
@@ -67,7 +71,9 @@ Dog.prototype.play = function () {
     Dog.SOUND_PLAY.play();
     
     setTimeout(function () {
-        this.sit();
+        if (!this.isSleeping()) {
+            this.sit();
+        }
     }.bind(this), 1500 + (Math.random() * 2000));
 }
 
@@ -79,7 +85,9 @@ Dog.prototype.feed = function () {
     Dog.SOUND_EAT.play();
     
     setTimeout(function () {
-        this.sit();
+        if (!this.isSleeping()) {
+            this.sit();
+        }
     }.bind(this), 1500 + (Math.random() * 2000));
 };
 
