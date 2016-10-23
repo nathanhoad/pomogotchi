@@ -68,7 +68,7 @@ $(document).ready(function () {
             var $timer = $('#timer');
             $timer.html(minutes + ":" + (seconds < 10 ? '0' + seconds : seconds));
             
-            if (!timer.is_working && seconds > 5 * 60) {
+            if (!timer.is_working && timer.seconds > 5 * 60) {
                 $timer.css('color', '#c00');
             } else {
                 $timer.css('color', '#333');

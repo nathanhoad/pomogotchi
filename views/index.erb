@@ -35,7 +35,21 @@
 
 <section class="about">
     <h1>Pomogotchi</h1>
-    Do you need to focus? Or do you need a distraction? Pomogotchi is both! A pomodoro timer and a virtual pet in one! Pomo sleeps while you work and is ready to play when you have a break.
+    <% if ENV['EXPLANATION'] && ENV['EXPLANATION'] != '' %>
+        <%= ENV['EXPLANATION'] %>
+    <% else %>
+        <p>
+            Do you need to focus? Or do you need a distraction? Pomogotchi is both! 
+            A pomodoro timer and a virtual pet in one! Pomo sleeps while you work 
+            and is ready to play when you have a break.
+        </p>
+        <p>
+            What's a pomodoro timer? The
+            <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">pomodoro technique</a> 
+            uses standard time periods for work and rest. Each work cycle is 25 minutes followed
+            by a 5 minute break.
+        </p>
+    <% end %>
 </section>
 
 <footer>
