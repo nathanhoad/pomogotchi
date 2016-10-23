@@ -2,7 +2,7 @@ var Dog = function (args) {
     if (args.render) this.render = args.render;
     if (args.onSit) this.onSit = args.onSit;
     
-    this.sit();
+    this.sit(true);
 }
 
 
@@ -11,6 +11,12 @@ Dog.SLEEPING = 1;
 Dog.PLAYING = 2;
 Dog.EATING = 3;
 Dog.POOPED = 4;
+
+Dog.SOUND_POOP = new Howl({ src: ['/sounds/sad.wav'] });
+Dog.SOUND_PLAY = new Howl({ src: ['/sounds/play.wav'] });
+Dog.SOUND_EAT = new Howl({ src: ['/sounds/eat.wav'] });
+Dog.SOUND_SIT = new Howl({ src: ['/sounds/sit.wav' ]});
+Dog.SOUND_CLEAN = new Howl({ src: ['/sounds/clean.wav' ]});
 
 
 Dog.prototype.setState = function (state) {
@@ -33,12 +39,14 @@ Dog.prototype.isSitting = function () {
 
 Dog.prototype.pooped = function () {
     this.setState(Dog.POOPED);
+    Dog.SOUND_POOP.play();
 };
 
 
 Dog.prototype.clean = function () {
     if (this.state == Dog.POOPED) {
         this.sit(true);
+        Dog.SOUND_CLEAN.play();
     }
 };
 
@@ -52,6 +60,7 @@ Dog.prototype.play = function () {
     if (!this.isSitting()) return;
     
     this.setState(Dog.PLAYING);
+    Dog.SOUND_PLAY.play();
     
     setTimeout(function () {
         this.sit();
@@ -63,6 +72,7 @@ Dog.prototype.feed = function () {
     if (!this.isSitting()) return;
     
     this.setState(Dog.EATING);
+    Dog.SOUND_EAT.play();
     
     setTimeout(function () {
         this.sit();

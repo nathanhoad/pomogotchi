@@ -44,11 +44,8 @@ var Timer = function (args) {
 };
 
 
-Timer.WORK_SECONDS = 3; //25 * 60;
-
-
 Timer.prototype.startWork = function () {
-    this.seconds = Timer.WORK_SECONDS;
+    this.seconds = window.config.WORK_SECONDS;
     this.is_working = true;
     this.render(this);
     this.onStartWork(this);
