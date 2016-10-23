@@ -1,7 +1,4 @@
 .DS_Store
-/.bundle
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
-.byebug_history
+*.log
+public/cache/*.html
+.sass-cache

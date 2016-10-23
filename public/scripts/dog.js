@@ -1,34 +1,74 @@
-var Dog = function () {
-    this.state = Dog.NORMAL;
+var Dog = function (args) {
+    if (args.render) this.render = args.render;
+    if (args.onSit) this.onSit = args.onSit;
+    
+    this.sit();
 }
 
 
-Dog.NORMAL = 0;
+Dog.SITTING = 0;
 Dog.SLEEPING = 1;
-Dog.PATTING = 2;
+Dog.PLAYING = 2;
+Dog.EATING = 3;
+Dog.POOPED = 4;
+
+
+Dog.prototype.setState = function (state) {
+    this.state = state;
+    this.render(this);
+}
+
+
+Dog.prototype.sit = function (just_pooped) {
+    this.setState(Dog.SITTING);
+    
+    // Don't poop right after cleaning
+    this.onSit(this, just_pooped);
+};
+
+Dog.prototype.isSitting = function () {
+    return (this.state == Dog.SITTING);
+}
+
+
+Dog.prototype.pooped = function () {
+    this.setState(Dog.POOPED);
+};
+
+
+Dog.prototype.clean = function () {
+    if (this.state == Dog.POOPED) {
+        this.sit(true);
+    }
+};
 
 
 Dog.prototype.sleep = function () {
-    this.state = Dog.SLEEPING;
-    
-    this.onSleep();
+    this.setState(Dog.SLEEPING);
 };
 
 
-Dog.prototype.wakeUp = function () {
-    this.state = Dog.NORMAL;
+Dog.prototype.play = function () {
+    if (!this.isSitting()) return;
     
-    this.onWakeUp();
+    this.setState(Dog.PLAYING);
+    
+    setTimeout(function () {
+        this.sit();
+    }.bind(this), 2000);
+}
+
+
+Dog.prototype.feed = function () {
+    if (!this.isSitting()) return;
+    
+    this.setState(Dog.EATING);
+    
+    setTimeout(function () {
+        this.sit();
+    }.bind(this), 2000);
 };
 
 
-Dog.prototype.pat = function () {
-    this.state = Dog.PATTING;
-    
-    this.onPat();
-};
-
-
-Dog.prototype.onSleep = function () {};
-Dog.prototype.onWakeUp = function () {};
-Dog.prototype.onPat = function () {};
+Dog.prototype.render = function () {};
+Dog.prototype.onSit = function () {};

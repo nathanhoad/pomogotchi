@@ -1,27 +1,78 @@
 $(document).ready(function () {
-    var dog = new Dog();
-
-    var timer = new Timer({
-        onZero: function () {
-            console.log('test');
+    var dog = new Dog({
+        render: function (dog) {
+            var $dog = $('#dog');
+            
+            switch (dog.state) {
+                case Dog.SLEEPING:
+                    $dog.html('[sleeping]');
+                    break;
+                case Dog.EATING:
+                    $dog.html('[eating]');
+                    break;
+                case Dog.PLAYING:
+                    $dog.html('[playing]');
+                    break;
+                case Dog.POOPED:
+                    $dog.html('[pooped]');
+                    break;
+                default:
+                    $dog.html('[sitting]');
+            }
         },
-        onUpdate: function (seconds) {
-            var minutes = Math.floor(seconds / 60);
-            seconds -= (minutes * 60);
-            $('#timer').html(minutes + ":" + seconds);
+        onSit: function (dog, just_pooped) {
+            if (!just_pooped && Math.random() <= 0.4) {
+                dog.pooped();
+                $('#message').text('Pomo left you a present');
+            } else {
+                $('#message').text('Play time!');
+            }
+        }
+    });
+    
+    var timer = new Timer({
+        onStartWork: function (timer) {
+            $('#start-work').addClass('active');
+            $('#start-break').removeClass('active');
+            
+            $('#message').text('Get back to work!');
+            
+            $('#dog-buttons').addClass('disabled');
+            dog.sleep();
+        },
+        onStartBreak: function (timer) {
+            $('#start-break').addClass('active');
+            $('#start-work').removeClass('active');
+            
+            $('#dog-buttons').removeClass('disabled');
+            dog.sit();
+        },
+        render: function (timer) {
+            var minutes = Math.floor(timer.seconds / 60);
+            var seconds = timer.seconds - (minutes * 60);
+            $('#timer').html(minutes + ":" + (seconds < 10 ? '0' + seconds : seconds));
         }
     });
     
     
-    $('#start-timer').click(function () {
-        timer.start(25 * 60);
+    $('#start-work').click(function () {
+        timer.startWork();
     });
     
-    $('#pause-timer').click(function () {
-        timer.stop();
+    $('#start-break').click(function () {
+        timer.startBreak();
     });
     
-    $('#pat-dog').click(function () {
-        dog.pat();
+    // Dog buttons
+    $('#dog-play').click(function () {
+        dog.play();
+    });
+    
+    $('#dog-feed').click(function () {
+        dog.feed();
+    });
+    
+    $('#dog-clean').click(function () {
+        dog.clean();
     });
 });

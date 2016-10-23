@@ -1,42 +1,68 @@
 var Timer = function (args) {
+    if (args.onStartWork) this.onStartWork = args.onStartWork;
+    if (args.onStartBreak) this.onStartBreak = args.onStartBreak;
+    if (args.render) this.render = args.render;
+    
     this.seconds = 0;
-    this.is_running = false;
+    this.is_working = false;
     
-    timer = this;
-    
-    this.interval = setInterval(function () {
-        if (!timer.is_running) return;
+    // Try to load the saved timer
+    if (localStorage && localStorage.getItem('timer')) {
+        var t = JSON.parse(localStorage.getItem('timer'));
+        this.seconds = t.seconds;
+        this.is_working = t.is_working;
         
-        if (timer.seconds > 0) {
-            timer.seconds--;
+        if (this.is_working) {
+            this.onStartWork(this);
+        } else {
+            this.onStartBreak(this);
         }
-        
-        timer.onUpdate(timer.seconds);
-        
-        if (timer.seconds == 0) {
-            timer.stop();
-            timer.onZero();
-        }
-    }, 1000);
-    
-    if (args.onZero) timer.onZero = args.onZero;
-    if (args.onUpdate) timer.onUpdate = args.onUpdate;
-};
-
-
-Timer.prototype.start = function (seconds) {
-    if (typeof seconds !== "undefined") {
-        this.seconds = seconds;
     }
     
-    this.is_running = true;
+    this.interval = setInterval(function () {
+        if (this.is_working) {
+            if (this.seconds > 0) {
+                this.seconds--;
+            }
+            
+            if (this.seconds == 0) {
+                this.startBreak(this);
+            }
+        } else {
+            this.seconds++;
+        }
+        
+        if (localStorage) {
+            var t = { seconds: this.seconds, is_working: this.is_working };
+            localStorage.setItem('timer', JSON.stringify(t));
+        }
+        
+        this.render(this);
+    }.bind(this), 1000);
+    
+    this.render(this);
 };
 
 
-Timer.prototype.stop = function () {
-    this.is_running = false;
+Timer.WORK_SECONDS = 3; //25 * 60;
+
+
+Timer.prototype.startWork = function () {
+    this.seconds = Timer.WORK_SECONDS;
+    this.is_working = true;
+    this.render(this);
+    this.onStartWork(this);
 };
 
 
-Timer.prototype.onZero = function () {};
-Timer.prototype.onUpdate = function () {};
+Timer.prototype.startBreak = function () {
+    this.seconds = 0;
+    this.is_working = false;
+    this.render(this);
+    this.onStartBreak(this);
+};
+
+
+Timer.prototype.onStartWork = function () {};
+Timer.prototype.onStartBreak = function () {};
+Timer.prototype.render = function () {};
